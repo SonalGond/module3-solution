@@ -24,40 +24,32 @@ function FoundItems() {
 
 function FoundItemsDirectiveController(){
   var menu = this;
-  menu.isEmpty = function(){
-    if(!angular.isUndefined(menu.items) && menu.items.length === 0){
-    return true;
-  }
-  else {
-    return false;
-  }
-};
+  menu.isEmptyList = function(){
+    if((!angular.isUndefined(menu.items) && menu.items.length === 0 )|| angular.isUndefined(menu.items)){
+               return true;
+       }
+    else {
+               return false;
+           }
+  };
 }
 
 NarrowItDownController.$inject = ['MenuSearchService'];
 function NarrowItDownController(MenuSearchService) {
     var menu = this;
-
     menu.filter = function () {
     if(!angular.isUndefined(menu.searchTerm)){
     var promise = MenuSearchService.getMatchedMenuItems(menu.searchTerm.toLowerCase());
-
     promise.then(function(response) {
-            menu.foundItem = response;
-          }).catch(function(error){
-                console.log(error.message);
-              });
-}
-else {
-  menu.isEmpty = function(){
-    return true;
-};
-}
-};
-
+      menu.items = response;
+      }).catch(function(error){
+              console.log(error.message);
+      });
+    }
+   };
 
     menu.remove = function(index){
-      menu.foundItem.splice(index,1);
+      menu.items.splice(index,1);
     };
   }
 
@@ -72,17 +64,17 @@ else {
                method: "GET",
                url: (ApiBasePath + "/menu_items.json")
            }).then(function success(result){
-             var foundItem = [];
+             var foundItems = [];
              result.data.menu_items.forEach(function(item) {
                   if (item.description.indexOf(searchTerm) != -1) {
-                       foundItem.push({
+                       foundItems.push({
                        name: item.name,
                        short_name: item.short_name,
                        description: item.description
                     });
                   }
                });
-           return foundItem;
+           return foundItems;
          });
       };
      }

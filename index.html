@@ -18,19 +18,11 @@
     </div>
     <div class="form-group narrow-button">
       <button class="btn btn-primary" ng-click="menu.filter();">Narrow It Down For Me!</button>
-      <ol>
-         <li ng-repeat="item in menu.foundItem">
-          Name : {{ item.name }} ok
-          Short Name: {{ item.short_name }}
-          Description: {{ item.description }}
-          <button type="button" name="button" ng-click="menu.remove($index);">Don't want this one!</button>
-
-        </li>
-      </ol>
-
-        <found-items items="menu.foundItem" on-remove="menu.remove(index)"></found-items>
-        <div ng-if="menu.isEmpty()">Nothing Found</div>
-    </div>
+   </div>
+      <br/>
+      <div class="form-group">
+        <found-items items="menu.items" on-remove="menu.remove(index)">ok</found-items>
+      </div>
   </div>
 </body>
 </html>
