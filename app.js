@@ -47,6 +47,7 @@ function NarrowItDownController(MenuSearchService) {
       });
     }
     else{
+      menu.items = [];
     menu.isEmptyList = function(){
          return true;
        };
