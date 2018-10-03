@@ -25,7 +25,7 @@ function FoundItems() {
 function FoundItemsDirectiveController(){
   var menu = this;
   menu.isEmptyList = function(){
-    if((!angular.isUndefined(menu.items) && menu.items.length === 0 )|| angular.isUndefined(menu.items)){
+      if((!angular.isUndefined(menu.items) && menu.items.length === 0 ) || angular.isUndefined(menu.items)){
                return true;
        }
     else {
@@ -38,7 +38,7 @@ NarrowItDownController.$inject = ['MenuSearchService'];
 function NarrowItDownController(MenuSearchService) {
     var menu = this;
     menu.filter = function () {
-    if(!angular.isUndefined(menu.searchTerm)){
+    if(!angular.isUndefined(menu.searchTerm) && menu.searchTerm!="" ){
     var promise = MenuSearchService.getMatchedMenuItems(menu.searchTerm.toLowerCase());
     promise.then(function(response) {
       menu.items = response;
@@ -46,6 +46,11 @@ function NarrowItDownController(MenuSearchService) {
               console.log(error.message);
       });
     }
+    else{
+    menu.isEmptyList = function(){
+         return true;
+       };
+         }
    };
 
     menu.remove = function(index){
